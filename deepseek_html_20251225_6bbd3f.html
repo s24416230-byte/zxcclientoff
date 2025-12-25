@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zxc Client - Minecraft клиент</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a00e0;
+            --secondary: #8e2de2;
+            --accent: #00d2ff;
+            --dark: #121212;
+            --light: #f8f9fa;
+            --gray: #2d2d2d;
+            --success: #00c851;
+            --warning: #ffbb33;
+            --danger: #ff4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero section */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(74, 0, 224, 0.2), rgba(142, 45, 226, 0.2));
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #ddd;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--accent);
+            color: var(--dark);
+        }
+        
+        /* Features section */
+        .features {
+            padding: 80px 0;
+            background-color: var(--gray);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+        }
+        
+        .section-title span {
+            color: var(--accent);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Pricing section */
+        .pricing {
+            padding: 80px 0;
+            background-color: var(--dark);
+        }
+        
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .pricing-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .pricing-card.popular {
+            border-color: var(--accent);
+            position: relative;
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent);
+            color: var(--dark);
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+        
+        .price span {
+            font-size: 1rem;
+            color: #aaa;
+        }
+        
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .features-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features-list li i {
+            color: var(--accent);
+        }
+        
+        /* Account/Login section */
+        .account-section {
+            padding: 80px 0;
+            background-color: var(--gray);
+        }
+        
+        .account-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-toggle {
+            display: flex;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .toggle-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .toggle-btn.active {
+            background-color: var(--primary);
+        }
+        
+        .form-container {
+            display: none;
+        }
+        
+        .form-container.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        /* Payment section */
+        .payment-section {
+            padding: 80px 0;
+            background-color: var(--dark);
+        }
+        
+        .payment-info {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .payment-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .phone-number {
+            background-color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .download-link {
+            background-color: var(--success);
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .download-link a {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        /* Installation guide */
+        .installation {
+            padding: 80px 0;
+            background-color: var(--gray);
+        }
+        
+        .steps-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 40px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            align-items: center;
+        }
+        
+        .step-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 80px;
+        }
+        
+        .step-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #0a0a0a;
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            color: #aaa;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--gray);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <span>Zxc Client</span>
+            </div>
+            
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#features">Возможности</a></li>
+                    <li><a href="#pricing">Купить</a></li>
+                    <li><a href="#installation">Установка</a></li>
+                    <li><a href="#account">Аккаунт</a></li>
+                </ul>
+            </nav>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Zxc Client для Minecraft</h1>
+            <p>Мощный клиент для Minecraft с уникальными функциями, улучшенной графикой и оптимизацией. Получите преимущество в игре с Zxc Client!</p>
+            
+            <div class="cta-buttons">
+                <a href="#pricing" class="btn btn-primary">
+                    <i class="fas fa-shopping-cart"></i> Купить полную версию
+                </a>
+                <a href="https://workupload.com/file/6WKgk2dwmFs" target="_blank" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Скачать бесплатную версию
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Возможности <span>Zxc Client</span></h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Высокая производительность</h3>
+                    <p>Оптимизация для плавного геймплея даже на слабых компьютерах. Увеличьте FPS на 30-50%.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Улучшенная графика</h3>
+                    <p>Красивые шейдеры, улучшенное освещение и текстуры для потрясающего визуального опыта.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Уникальные функции</h3>
+                    <p>Множество полезных модификаций и утилит для комфортной игры и строительства.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Выберите <span>версию</span></h2>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Бесплатная</h3>
+                    <div class="price">0₽ <span>/ навсегда</span></div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Базовые функции</li>
+                        <li><i class="fas fa-check"></i> Улучшенная графика</li>
+                        <li><i class="fas fa-times"></i> Премиум моды</li>
+                        <li><i class="fas fa-times"></i> Приоритетная поддержка</li>
+                        <li><i class="fas fa-times"></i> Авто-обновления</li>
+                    </ul>
+                    
+                    <a href="https://workupload.com/file/6WKgk2dwmFs" target="_blank" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Скачать бесплатно
+                    </a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">ПОПУЛЯРНАЯ</div>
+                    <h3>Полная версия</h3>
+                    <div class="price">299₽ <span>/ навсегда</span></div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Все функции бесплатной версии</li>
+                        <li><i class="fas fa-check"></i> Эксклюзивные премиум моды</li>
+                        <li><i class="fas fa-check"></i> Приоритетная поддержка</li>
+                        <li><i class="fas fa-check"></i> Автоматические обновления</li>
+                        <li><i class="fas fa-check"></i> Доступ к будущим функциям</li>
+                    </ul>
+                    
+                    <button class="btn btn-primary" id="buy-full-version">
+                        <i class="fas fa-shopping-cart"></i> Купить сейчас
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Account section -->
+    <section class="account-section" id="account">
+        <div class="container">
+            <h2 class="section-title">Создание <span>аккаунта</span></h2>
+            
+            <div class="account-container">
+                <div class="form-toggle">
+                    <button class="toggle-btn active" id="login-toggle">Вход</button>
+                    <button class="toggle-btn" id="register-toggle">Регистрация</button>
+                </div>
+                
+                <div class="form-container active" id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="Ваш email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Пароль</label>
+                        <input type="password" id="login-password" placeholder="Ваш пароль">
+                    </div>
+                    
+                    <button class="btn btn-primary" id="login-btn" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Войти в аккаунт
+                    </button>
+                </div>
+                
+                <div class="form-container" id="register-form">
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" placeholder="Ваш email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-username">Имя пользователя</label>
+                        <input type="text" id="register-username" placeholder="Придумайте имя пользователя">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password">Пароль</label>
+                        <input type="password" id="register-password" placeholder="Придумайте пароль">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-confirm-password">Подтверждение пароля</label>
+                        <input type="password" id="register-confirm-password" placeholder="Повторите пароль">
+                    </div>
+                    
+                    <button class="btn btn-primary" id="register-btn" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i> Создать аккаунт
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment section -->
+    <section class="payment-section" id="payment" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Оплата <span>заказа</span></h2>
+            
+            <div class="payment-info">
+                <p>Для получения полной версии Zxc Client необходимо совершить оплату в размере <strong>299 рублей</strong>.</p>
+                <p>После оплаты вы получите ссылку для скачивания полной версии клиента.</p>
+                
+                <p>Отправьте платеж на номер:</p>
+                <div class="phone-number">+7 925 813 78 53</div>
+                
+                <p>После оплаты, пришлите скриншот чека на нашу почту: <strong>support@zxclient.ru</strong> или в Telegram: <strong>@zxclient_support</strong></p>
+                <p>В ответ вы получите ссылку для скачивания полной версии.</p>
+            </div>
+            
+            <div class="download-link" id="paid-download" style="display: none;">
+                <a href="https://workupload.com/file/YYSJur89aCY" target="_blank">
+                    <i class="fas fa-download"></i> Скачать полную версию Zxc Client
+                </a>
+                <p style="margin-top: 15px; font-size: 0.9rem;">Ссылка активна в течение 24 часов</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-secondary" id="back-to-pricing">
+                    <i class="fas fa-arrow-left"></i> Вернуться к выбору версии
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation guide -->
+    <section class="installation" id="installation">
+        <div class="container">
+            <h2 class="section-title">Как <span>установить?</span></h2>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Установите Legacy Launcher</h3>
+                        <p>Скачайте и установите Legacy Launcher с официального сайта.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Установите Java 17</h3>
+                        <p>Установите Java 17 версии для корректной работы клиента.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Запустите версию 1.16.5</h3>
+                        <p>В Legacy Launcher запустите версию Minecraft 1.16.5 для создания необходимых файлов.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Замените файл</h3>
+                        <p>Удалите из папки версии файл 1.16.5 и замените его на скаченный файл (надо переименовать в 1.16.5).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-cube"></i> Zxc Client
+                </div>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Zxc Client. Все права защищены. Этот сайт не связан с Mojang или Microsoft.</p>
+                <p style="margin-top: 10px;">Контакты: support@zxclient.ru | Telegram: @zxclient_support</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for messages -->
+    <div class="modal" id="message-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <h2 id="modal-title"></h2>
+            <p id="modal-message"></p>
+            <button class="btn btn-primary" id="modal-ok" style="margin-top: 20px;">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        // Form toggle
+        const loginToggle = document.getElementById('login-toggle');
+        const registerToggle = document.getElementById('register-toggle');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        
+        loginToggle.addEventListener('click', function() {
+            loginToggle.classList.add('active');
+            registerToggle.classList.remove('active');
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+        });
+        
+        registerToggle.addEventListener('click', function() {
+            registerToggle.classList.add('active');
+            loginToggle.classList.remove('active');
+            registerForm.classList.add('active');
+            loginForm.classList.remove('active');
+        });
+        
+        // Buy button handler
+        document.getElementById('buy-full-version').addEventListener('click', function() {
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('zxclient_logged_in') === 'true';
+            
+            if (!isLoggedIn) {
+                showModal('Требуется авторизация', 'Для покупки полной версии необходимо создать аккаунт и войти в систему.');
+                document.getElementById('account').scrollIntoView({behavior: 'smooth'});
+                registerToggle.click();
+            } else {
+                // Show payment section
+                document.getElementById('payment').style.display = 'block';
+                document.getElementById('payment').scrollIntoView({behavior: 'smooth'});
+            }
+        });
+        
+        // Back to pricing button
+        document.getElementById('back-to-pricing').addEventListener('click', function() {
+            document.getElementById('payment').style.display = 'none';
+            document.getElementById('pricing').scrollIntoView({behavior: 'smooth'});
+        });
+        
+        // Login button handler
+        document.getElementById('login-btn').addEventListener('click', function() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                showModal('Ошибка', 'Пожалуйста, заполните все поля.');
+                return;
+            }
+            
+            // Simple validation
+            if (!isValidEmail(email)) {
+                showModal('Ошибка', 'Пожалуйста, введите корректный email адрес.');
+                return;
+            }
+            
+            // Check if user exists
+            const users = JSON.parse(localStorage.getItem('zxclient_users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (!user) {
+                showModal('Ошибка', 'Неверный email или пароль.');
+                return;
+            }
+            
+            // Login successful
+            localStorage.setItem('zxclient_logged_in', 'true');
+            localStorage.setItem('zxclient_current_user', JSON.stringify(user));
+            
+            showModal('Успешный вход', `Добро пожаловать, ${user.username}! Теперь вы можете приобрести полную версию Zxc Client.`);
+        });
+        
+        // Register button handler
+        document.getElementById('register-btn').addEventListener('click', function() {
+            const email = document.getElementById('register-email').value;
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (!email || !username || !password || !confirmPassword) {
+                showModal('Ошибка', 'Пожалуйста, заполните все поля.');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showModal('Ошибка', 'Пожалуйста, введите корректный email адрес.');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showModal('Ошибка', 'Пароль должен содержать минимум 6 символов.');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showModal('Ошибка', 'Пароли не совпадают.');
+                return;
+            }
+            
+            // Check if user already exists
+            const users = JSON.parse(localStorage.getItem('zxclient_users') || '[]');
+            const userExists = users.some(u => u.email === email);
+            
+            if (userExists) {
+                showModal('Ошибка', 'Пользователь с таким email уже зарегистрирован.');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                email,
+                username,
+                password
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('zxclient_users', JSON.stringify(users));
+            localStorage.setItem('zxclient_logged_in', 'true');
+            localStorage.setItem('zxclient_current_user', JSON.stringify(newUser));
+            
+            showModal('Регистрация успешна', `Аккаунт ${username} успешно создан! Теперь вы можете приобрести полную версию Zxc Client.`);
+            
+            // Clear form
+            document.getElementById('register-email').value = '';
+            document.getElementById('register-username').value = '';
+            document.getElementById('register-password').value = '';
+            document.getElementById('register-confirm-password').value = '';
+            
+            // Switch to login form
+            loginToggle.click();
+        });
+        
+        // Simulate payment for demo purposes
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'modal-ok') {
+                const modalTitle = document.getElementById('modal-title').textContent;
+                
+                if (modalTitle === 'Оплата подтверждена') {
+                    // Show download link after payment
+                    document.getElementById('paid-download').style.display = 'block';
+                    document.getElementById('payment').scrollIntoView({behavior: 'smooth'});
+                }
+                
+                closeModal();
+            }
+        });
+        
+        // Modal functionality
+        function showModal(title, message) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+            document.getElementById('message-modal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('message-modal').style.display = 'none';
+        }
+        
+        document.getElementById('close-modal').addEventListener('click', closeModal);
+        
+        // Email validation
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        // Check if user is already logged in on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('zxclient_logged_in') === 'true';
+            
+            if (isLoggedIn) {
+                const currentUser = JSON.parse(localStorage.getItem('zxclient_current_user') || '{}');
+                document.getElementById('login-email').value = currentUser.email || '';
+            }
+            
+            // Demo payment simulation (for demonstration only)
+            // In real implementation, this would be connected to a payment gateway
+            const paymentButton = document.createElement('button');
+            paymentButton.className = 'btn btn-primary';
+            paymentButton.innerHTML = '<i class="fas fa-credit-card"></i> Я оплатил, получить ссылку';
+            paymentButton.style.marginTop = '20px';
+            paymentButton.style.width = '100%';
+            
+            paymentButton.addEventListener('click', function() {
+                showModal('Оплата подтверждена', 'Спасибо за покупку! Ваша ссылка для скачивания полной версии теперь доступна ниже.');
+            });
+            
+            document.querySelector('.payment-info').appendChild(paymentButton);
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('nav-menu').style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
